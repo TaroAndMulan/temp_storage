@@ -44,25 +44,42 @@ contract openThaiContract{
     function retrievePending() public view returns (Contract[] memory){
         uint length = userToContractID[msg.sender].length;
         uint j=0;
-        Contract[] memory userContract = new Contract[](length);
+       for (uint i=0;i<length;i++){
+            if (contracts[userToContractID[msg.sender][i]].isSigned==false){
+             j++;
+            }
+        }
+        
+        if (j==0) {
+            return new Contract[](0);
+        }
+        Contract[] memory userContract = new Contract[](j);
+        j =0;
         for (uint i=0;i<length;i++){
             if (contracts[userToContractID[msg.sender][i]].isSigned==false){
           userContract[j] = contracts[userToContractID[msg.sender][i]];
              j++;
             }
-        }
+        } 
         return userContract;
     }
     function retrieveSigned() public view returns (Contract[] memory){
         uint length = userToContractID[msg.sender].length;
         uint j=0;
-        Contract[] memory userContract = new Contract[](length);
+       for (uint i=0;i<length;i++){
+            if (contracts[userToContractID[msg.sender][i]].isSigned==true){
+             j++;
+            }
+        }
+        if (j==0) return new Contract[](0);
+        Contract[] memory userContract = new Contract[](j);
+        j =0;
         for (uint i=0;i<length;i++){
             if (contracts[userToContractID[msg.sender][i]].isSigned==true){
           userContract[j] = contracts[userToContractID[msg.sender][i]];
              j++;
             }
-        }
+        } 
         return userContract;
     }
 
